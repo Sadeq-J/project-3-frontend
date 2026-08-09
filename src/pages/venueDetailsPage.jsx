@@ -53,6 +53,16 @@ function VenueDetailsPage() {
 
           <p className="text-gray-600 mt-4">{venue.description}</p>
         </div>
+        <div className="mt-6">
+          <h2 className="text-xl font-bold">Sports</h2>
+          <div className="flex flex-wrap gap-2 mt-3">
+            {(venue.sportType || []).map((sport, index) => (
+              <span key={index} className="bg-gray-100 px-4 py-2 rounded-full">
+                {sport}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

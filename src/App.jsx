@@ -5,6 +5,8 @@ import SignupPage from "./pages/SignupPage";
 import Homepage from "./pages/Homepage";
 import SignInPage from "./pages/SigninPage";
 import Dashboard from "./pages/Dashboard";
+import VenuesPage from "./pages/venuePage";
+import VenueDetailsPage from "./pages/venueDetailsPage";
 import { useEffect } from "react";
 import { getCurrentUser, logout } from "./services/authService";
 import { getVenues, getVenueById } from "./services/venueService";
@@ -28,6 +30,7 @@ function App() {
           }
         />
         <Route path="/venues" element={<VenuesPage />} />
+        <Route path="/venues/:Id" element={<VenueDetailsPage />} />
       </Routes>
     </div>
   );

@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const API_URL =
   import.meta.env.VITE_BACKEND_SERVER_URL || "http://localhost:3000";
 
@@ -15,3 +16,4 @@ export const getVenueById = async (id) => {
 
   return response.data;
 };
+export { getVenues, getVenueById };

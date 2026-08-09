@@ -32,10 +32,28 @@ function VenueDetailsPage() {
   }
 
   return (
-    <div>
-      <h1>{venue.name}</h1>
-      <p>{venue.location}</p>
-      <p>{venue.description}</p>
+    <div className="min-h-screen bg-gray-100 p-6">
+      <div className="max-w-5xl mx-auto bg-white rounded-xl shadow overflow-hidden">
+        {venue.images && venue.images.length > 0 ? (
+          <img
+            src={venue.images[0]}
+            alt={venue.name}
+            className="w-full h-80 object-cover"
+          />
+        ) : (
+          <div className="w-full h-80 bg-gray-200 flex items-center justify-center">
+            <span className="text-gray-500">No Image</span>
+          </div>
+        )}
+
+        <div className="p-8">
+          <h1 className="text-4xl font-bold">{venue.name}</h1>
+
+          <p className="text-gray-600 text-lg mt-3">📍 {venue.location}</p>
+
+          <p className="text-gray-600 mt-4">{venue.description}</p>
+        </div>
+      </div>
     </div>
   );
 }

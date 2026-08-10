@@ -14,6 +14,11 @@ function CreateVenuePage() {
     images: "",
     facilities: "",
   });
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+  }
+
   function handleChange(event) {
     setFormData({ ...FormData, [event.target.name]: event.target.value });
   }

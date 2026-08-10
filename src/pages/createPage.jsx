@@ -17,7 +17,40 @@ function CreateVenuePage() {
 
   return (
     <div>
-      <h1> CREATE VENUE</h1>
+      <h1>Create Venue</h1>
+      <form>
+        <div>
+          <label htmlFor="name">Venue Name</label>
+          <input
+            id="name"
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="description">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="location">Location</label>
+          <input
+            id="location"
+            type="text"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            required
+          />
+        </div>
+      </form>
     </div>
   );
 }

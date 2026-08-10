@@ -1,20 +1,26 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { getVenueById } from "../services/venueService";
+import { useNavigate, useParams } from "react-router-dom";
+import { getVenueById } from "../services/venueServices";
 
 function VenueDetailsPage() {
   const { venueId } = useParams();
+  const navigate = useNavigate();
 
   const [venue, setVenue] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchVenue = async () => {
       try {
+        setLoading(true);
+
         const data = await getVenueById(venueId);
+
         setVenue(data);
       } catch (error) {
         console.error(error);
+        setError("Failed to load venue");
       } finally {
         setLoading(false);
       }
@@ -24,11 +30,15 @@ function VenueDetailsPage() {
   }, [venueId]);
 
   if (loading) {
-    return <div>Loading venue...</div>;
+    return <div className="text-center p-10">Loading venue...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center p-10 text-red-500">{error}</div>;
   }
 
   if (!venue) {
-    return <div>Venue not found.</div>;
+    return <div className="text-center p-10">Venue not found.</div>;
   }
 
   return (
@@ -51,27 +61,58 @@ function VenueDetailsPage() {
 
           <p className="text-gray-600 text-lg mt-3">📍 {venue.location}</p>
 
-          <p className="text-gray-600 mt-4">{venue.description}</p>
-        </div>
-        <div className="mt-6">
-          <h2 className="text-xl font-bold">Sports</h2>
-          <div className="flex flex-wrap gap-2 mt-3">
-            {(venue.sportType || []).map((sport, index) => (
-              <span key={index} className="bg-gray-100 px-4 py-2 rounded-full">
-                {sport}
-              </span>
-            ))}
+          {venue.description && (
+            <div className="mt-6">
+              <h2 className="text-xl font-bold">Description</h2>
+
+              <p className="text-gray-600 mt-2">{venue.description}</p>
+            </div>
+          )}
+
+          <div className="mt-6">
+            <h2 className="text-xl font-bold">Sports</h2>
+
+            <div className="flex flex-wrap gap-2 mt-3">
+              {venue.sportType.map((sport, index) => (
+                <span
+                  key={index}
+                  className="bg-gray-100 px-4 py-2 rounded-full"
+                >
+                  {sport}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="mt-6">
-        <h2 className="text-xl font-bold">Sports</h2>
-        <div className="flex flex-wrap gap-2 mt-3">
-          {(venue.sportType || []).map((sport, index) => (
-            <span key={index} className="bg-gray-100 px-4 py-2 rounded-full">
-              {sport}
-            </span>
-          ))}
+
+          {venue.facilities && venue.facilities.length > 0 && (
+            <div className="mt-6">
+              <h2 className="text-xl font-bold">Facilities</h2>
+
+              <div className="flex flex-wrap gap-2 mt-3">
+                {venue.facilities.map((facility, index) => (
+                  <span
+                    key={index}
+                    className="bg-gray-100 px-4 py-2 rounded-full"
+                  >
+                    {facility}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="mt-8">
+            <p className="text-2xl font-bold">
+              {venue.pricePerHour} BHD / hour
+            </p>
+          </div>
+
+          <button
+            onClick={() => navigate(`/bookings/${venue._id}`)}
+            className="w-full bg-black text-white py-4 rounded-lg mt-6 text-lg font-semibold hover:bg-gray-800"
+          >
+            Book This Venue
+          </button>
         </div>
       </div>
     </div>

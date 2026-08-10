@@ -14,7 +14,9 @@ function CreateVenuePage() {
     images: "",
     facilities: "",
   });
-
+  function handleChange(event) {
+    setFormData({ ...FormData, [event.target.name]: event.target.value });
+  }
   return (
     <div>
       <h1>Create Venue</h1>

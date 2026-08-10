@@ -12,7 +12,7 @@ import { getCurrentUser, logout } from "./services/authService";
 import { getVenues, getVenueById } from "./services/venueService";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
-import VenuesPage from "./pages/venuePage";
+
 function App() {
   return (
     <div>
@@ -30,7 +30,7 @@ function App() {
           }
         />
         <Route path="/venues" element={<VenuesPage />} />
-        <Route path="/venues/:Id" element={<VenueDetailsPage />} />
+        <Route path="/venues/:venueId" element={<VenueDetailsPage />} />
       </Routes>
     </div>
   );

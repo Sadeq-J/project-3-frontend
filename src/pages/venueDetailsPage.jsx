@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getVenueById } from "../services/venueServices";
+import { getVenueById } from "../services/venueService";
 
 function VenueDetailsPage() {
   const { venueId } = useParams();

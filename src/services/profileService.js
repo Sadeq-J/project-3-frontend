@@ -80,7 +80,7 @@ async function updateProfile(profileData) {
   }
 }
 
-export default {
+export {
   getProfile,
   getUserProfile,
   followUser,

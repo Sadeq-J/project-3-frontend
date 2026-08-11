@@ -9,6 +9,7 @@ function Navbar() {
       ? 
       (<>
       <button onClick={logout}>Sign Out</button>
+      <Link to='/venues'>Venues</Link>
       </>) : 
       (<>
         <Link to='/sign-up'>Sign Up</Link>

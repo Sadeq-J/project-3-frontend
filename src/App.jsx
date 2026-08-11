@@ -40,6 +40,7 @@ function App() {
         />
         <Route path="/venues" element={<VenuesPage />} />
         <Route path="/venues/:venueId" element={<VenueDetailsPage />} />
+        <Route path="/venues/:venueId/edit" element={<EditVenuePage />} />
       </Routes>
     </div>
   );

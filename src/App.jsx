@@ -7,6 +7,7 @@ import SignInPage from "./pages/SigninPage";
 import Dashboard from "./pages/Dashboard";
 import VenuesPage from "./pages/venuePage";
 import VenueDetailsPage from "./pages/venueDetailsPage";
+import MyProfilePage from "./pages/profiles/MyProfilePage"
 import { useEffect } from "react";
 import { getCurrentUser, logout } from "./services/authService";
 import { getVenues } from "./services/venueService";
@@ -31,6 +32,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/my-profile"
+          element={
+            <ProtectedRoute>
+              <MyProfilePage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/venues" element={<VenuesPage />} />
         <Route path="/venues/:venueId" element={<VenueDetailsPage />} />
         <Route
@@ -40,6 +49,7 @@ function App() {
             </AdminRoute>
           }
           />
+        <Route path="/venues/:venueId/edit" element={<EditVenuePage />} />
       </Routes>
     </div>
   );

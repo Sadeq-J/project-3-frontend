@@ -12,6 +12,8 @@ import { getCurrentUser, logout } from "./services/authService";
 import { getVenues } from "./services/venueService";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
+import AdminRoute from "./components/AdminRoute"
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   return (
@@ -31,6 +33,13 @@ function App() {
         />
         <Route path="/venues" element={<VenuesPage />} />
         <Route path="/venues/:venueId" element={<VenueDetailsPage />} />
+        <Route
+          path="/admin" element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
+          />
       </Routes>
     </div>
   );

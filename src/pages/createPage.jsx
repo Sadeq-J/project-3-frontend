@@ -5,7 +5,7 @@ import axios from "axios";
 function CreateVenuePage() {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
+  const [formData, setformData] = useState({
     name: "",
     description: "",
     location: "",
@@ -20,7 +20,7 @@ function CreateVenuePage() {
   }
 
   function handleChange(event) {
-    setFormData({ ...FormData, [event.target.name]: event.target.value });
+    setformData({ ...formData, [event.target.name]: event.target.value });
   }
   return (
     <div>

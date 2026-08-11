@@ -7,6 +7,7 @@ import SignInPage from "./pages/SigninPage";
 import Dashboard from "./pages/Dashboard";
 import VenuesPage from "./pages/venuePage";
 import VenueDetailsPage from "./pages/venueDetailsPage";
+import EditVenuePage from "./pages/Editpage";
 import { useEffect } from "react";
 import { getCurrentUser, logout } from "./services/authService";
 import { getVenues } from "./services/venueService";
@@ -31,6 +32,7 @@ function App() {
         />
         <Route path="/venues" element={<VenuesPage />} />
         <Route path="/venues/:venueId" element={<VenueDetailsPage />} />
+        <Route path="/venues/:venueId/edit" element={<EditVenuePage />} />
       </Routes>
     </div>
   );

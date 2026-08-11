@@ -7,7 +7,7 @@ import SignInPage from "./pages/SigninPage";
 import Dashboard from "./pages/Dashboard";
 import VenuesPage from "./pages/venuePage";
 import VenueDetailsPage from "./pages/venueDetailsPage";
-import EditVenuePage from "./pages/Editpage";
+import MyProfilePage from "./pages/profiles/MyProfilePage"
 import { useEffect } from "react";
 import { getCurrentUser, logout } from "./services/authService";
 import { getVenues } from "./services/venueService";
@@ -27,6 +27,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/my-profile"
+          element={
+            <ProtectedRoute>
+              <MyProfilePage />
             </ProtectedRoute>
           }
         />

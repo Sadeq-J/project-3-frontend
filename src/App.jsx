@@ -15,6 +15,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
 import AdminRoute from "./components/AdminRoute"
 import AdminDashboard from "./pages/AdminDashboard";
+import EditVenuePage from "./pages/Editpage"
 
 function App() {
   return (

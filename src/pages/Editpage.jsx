@@ -192,4 +192,5 @@ function EditVenuePage() {
     </div>
   );
 }
+
 export default EditVenuePage;

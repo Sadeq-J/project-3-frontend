@@ -9,7 +9,6 @@ import VenuesPage from "./pages/venuePage";
 import VenueDetailsPage from "./pages/venueDetailsPage";
 import MyProfilePage from "./pages/profiles/MyProfilePage"
 import BookingPage from "./pages/BookingPage"
-import CreateVenuePage from "./pages/createPage";
 import BookingDetailsPage from "./pages/BookingDetailsPage";
 import ProfileDetailsPage from "./pages/profiles/ProfileDetailsPage";
 import { useEffect } from "react";

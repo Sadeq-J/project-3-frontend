@@ -27,7 +27,7 @@ function Navbar() {
         </Link>
 
         <div className="hidden items-center gap-6 text-sm font-medium text-slate-600 md:flex">
-          <Link to="/Dashboard" className="transition-colors hover:text-slate-900">Home</Link>
+          <Link to="/" className="transition-colors hover:text-slate-900">Home</Link>
           <Link to="/venues" className="transition-colors hover:text-slate-900">Venues</Link>
           {user && <Link to="/my-profile" className="transition-colors hover:text-slate-900">Profile</Link>}
           {isAdmin && <Link to="/admin" className="transition-colors hover:text-slate-900">Admin</Link>}

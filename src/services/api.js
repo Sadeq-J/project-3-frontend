@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_BACK_END_SERVER_URL || "https://project-3-backend-qgh2.onrender.com",
+  baseURL: import.meta.env.VITE_BACK_END_SERVER_URL || "http://localhost:3000",
 });
 
 api.interceptors.request.use((config) => {

@@ -16,6 +16,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import EditVenuePage from "./pages/Editpage";
 import CreateVenuePage from "./pages/createPage";
 import AdminVenueDetailsPage from "./pages/AdminVenueDetailsPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -101,6 +102,7 @@ function App() {
               </AdminRoute>
             }
           />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
     </div>

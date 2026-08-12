@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { getVenues } from "../services/venueService";
+import { BAHRAIN_LOCATIONS } from "../constants/locations";
 
 const resolveImageUrl = (image) => {
   if (typeof image !== "string" || !image.trim()) return "";
@@ -118,12 +119,31 @@ function VenuesPage() {
               <option value="swimming">Swimming</option>
             </select>
 
-            <select value={location} onChange={(e) => setLocation(e.target.value)} className="field-input">
-              <option value="">All locations</option>
-              <option value="Saar">Saar</option>
-              <option value="Seef">Seef</option>
-              <option value="Amwaj">Amwaj</option>
-            </select>
+            <div className="relative">
+              <input
+                type="text"
+                list="bahrain-locations-list"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder="Type or select location in Bahrain..."
+                className="field-input pr-8"
+              />
+              <datalist id="bahrain-locations-list">
+                {BAHRAIN_LOCATIONS.map((loc) => (
+                  <option key={loc} value={loc} />
+                ))}
+              </datalist>
+              {location && (
+                <button
+                  type="button"
+                  onClick={() => setLocation("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 hover:text-slate-600"
+                  title="Clear location"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
 
             <div className="flex gap-2">
               <input

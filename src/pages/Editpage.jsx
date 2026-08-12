@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getVenueById, updateVenueById } from "../services/venueService";
+import { BAHRAIN_LOCATIONS } from "../constants/locations";
 
 function EditVenuePage() {
   const { venueId } = useParams();
@@ -123,7 +124,22 @@ function EditVenuePage() {
 
               <div className="space-y-2">
                 <label htmlFor="location" className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-700">Location</label>
-                <input type="text" id="location" name="location" value={venue.location} onChange={handleChange} className="field-input" required />
+                <input
+                  type="text"
+                  id="location"
+                  name="location"
+                  list="edit-bahrain-locations"
+                  value={venue.location}
+                  onChange={handleChange}
+                  placeholder="Type or select a location in Bahrain..."
+                  className="field-input"
+                  required
+                />
+                <datalist id="edit-bahrain-locations">
+                  {BAHRAIN_LOCATIONS.map((loc) => (
+                    <option key={loc} value={loc} />
+                  ))}
+                </datalist>
               </div>
 
               <div className="space-y-2">

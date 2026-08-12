@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createVenue } from "../services/venueService";
+import { BAHRAIN_LOCATIONS } from "../constants/locations";
 
 function CreateVenuePage() {
   const navigate = useNavigate();
@@ -98,7 +99,22 @@ function CreateVenuePage() {
 
               <div className="space-y-2">
                 <label htmlFor="location" className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-700">Location</label>
-                <input id="location" type="text" name="location" value={formData.location} onChange={handleChange} className="field-input" required />
+                <input
+                  id="location"
+                  type="text"
+                  name="location"
+                  list="create-bahrain-locations"
+                  value={formData.location}
+                  onChange={handleChange}
+                  placeholder="Type or select a location in Bahrain..."
+                  className="field-input"
+                  required
+                />
+                <datalist id="create-bahrain-locations">
+                  {BAHRAIN_LOCATIONS.map((loc) => (
+                    <option key={loc} value={loc} />
+                  ))}
+                </datalist>
               </div>
 
               <div className="space-y-2">

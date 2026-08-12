@@ -5,7 +5,14 @@ import { getCurrentUser, logout } from "../services/authService";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    try {
+      const storedUser = localStorage.getItem("user");
+      return storedUser ? JSON.parse(storedUser) : null;
+    } catch (error) {
+      return null;
+    }
+  });
 
   const [loading, setLoading] = useState(true);
 
@@ -24,9 +31,9 @@ export function AuthProvider({ children }) {
       }
 
       try {
-        const user = await getCurrentUser();
-        setUser(user);
-        localStorage.setItem("user", JSON.stringify(user));
+        const currentUserData = await getCurrentUser();
+        setUser(currentUserData);
+        localStorage.setItem("user", JSON.stringify(currentUserData));
       } catch (error) {
         localStorage.removeItem("token");
         localStorage.removeItem("user");

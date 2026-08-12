@@ -21,7 +21,7 @@ export default function AdminRoute({ children }) {
   const isAdmin = Boolean(user?.isAdmin ?? parsedUser?.isAdmin);
 
   if (!token || !isAdmin) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return children;

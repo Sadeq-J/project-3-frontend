@@ -26,7 +26,7 @@ const SignInForm = () => {
       setSubmitting(true);
       const signedInUser = await signIn(formData);
       setUser(signedInUser);
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
       setError(err?.response?.data?.message || "Unable to sign in. Please try again.");
     } finally {

@@ -139,15 +139,6 @@ function BookingPage() {
       return
     }
 
-    if (isFootball) {
-      if (
-        formData.teams.teamA.length === 0 ||
-        formData.teams.teamB.length === 0
-      ) {
-        return
-      }
-    }
-
     setShowPayment(true)
   }
 
@@ -297,7 +288,7 @@ function BookingPage() {
             </div>
           </div>
 
-          <form onSubmit={handleFakePayment}>
+          <div>
             <div style={{ marginBottom: "16px" }}>
               <label htmlFor="card-number">Card Number</label>
               <input
@@ -400,7 +391,11 @@ function BookingPage() {
               <strong>Demo Payment</strong>
             </div>
 
-            <button type="submit" style={{ width: "100%", padding: "13px" }}>
+            <button
+              type="button"
+              onClick={handleFakePayment}
+              style={{ width: "100%", padding: "13px" }}
+            >
               Pay Now
             </button>
 
@@ -411,7 +406,7 @@ function BookingPage() {
             >
               Back
             </button>
-          </form>
+          </div>
         </div>
       )}
 

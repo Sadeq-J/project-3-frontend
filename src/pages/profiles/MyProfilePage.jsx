@@ -184,4 +184,4 @@ function MyProfilePage() {
     )
 }
 
-export default MyProfilePage
+export default MyProfilePage;

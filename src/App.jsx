@@ -24,7 +24,7 @@ function App() {
 
       <main className="mx-auto w-full max-w-7xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
         <Routes>
-          <Route path="/" element={<Homepage />} />
+          <Route path="/Dashboard" element={<Homepage />} />
           <Route path="/sign-up" element={<SignupPage />} />
           <Route path="/sign-in" element={<SignInPage />} />
           <Route

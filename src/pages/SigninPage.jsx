@@ -31,6 +31,9 @@ const SignInForm = ({}) => {
     try {
       const signedInUser = await signIn(formData);
 
+      // localStorage.setItem('token', data.token)
+      // localStorage.setItem('user', JSON.stringify(data.user))
+
       setUser(signedInUser);
       navigate('/dashboard');
     } catch (err) {

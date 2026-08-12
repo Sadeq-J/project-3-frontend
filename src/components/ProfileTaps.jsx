@@ -2,7 +2,7 @@ import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import {getBookings} from '../services/bookingService'
+import {getMyBookings} from '../services/bookingService'
 import {useNavigate} from 'react-router'
 
 function CustomTabPanel({ children, value, index, ...other }) {
@@ -29,15 +29,20 @@ function a11yProps(index) {
 export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
   const [bookings, setBookings] = React.useState([])
+  const [loading, setLoading] = React.useState(true)
 
     const navigate = useNavigate()
   React.useEffect(() => {
     const fetchBookings = async () => {
+      setLoading(true)
       try {
-        const response = await getBookings()
+        const response = await getMyBookings()
         setBookings(response)
       } catch (error) {
         console.error('Error fetching bookings:', error)
+      }
+      finally {
+        setLoading(false)
       }
     }
 
@@ -64,20 +69,28 @@ export default function BasicTabs() {
 
       <CustomTabPanel value={value} index={0}>
         Bookings
-        {bookings.length === 0 ? (
+        {loading ? (
+          <div style={{ padding: "20px 0" }}>
+            <p>Loading bookings...</p>
+          </div>
+        ) : bookings.length === 0 ? (
           <p>No bookings found.</p>
         ) : (
-            bookings.map((oneBooking) => (
-              <div key={oneBooking._id} onClick={() => navigate(`/bookings/${oneBooking._id}`)}>
-                <p>Booking ID: {oneBooking._id}</p>
-                <p>Booking Date: {new Date(oneBooking.date).toLocaleDateString()}</p>
-                <p>Booking Time: {new Date(oneBooking.date).toLocaleTimeString()}</p>
-                <p>Booking Status: {oneBooking.status}</p>
-                <hr />
-              </div>
-            ))
-          )
-        }
+          bookings.map((oneBooking) => (
+            <div
+              key={oneBooking._id}
+              onClick={() => navigate(`/bookings/${oneBooking._id}`)}
+            >
+              <p>Venue: {oneBooking.venue?.name || "Venue"}</p>
+              <p>
+                Booking Date: {new Date(oneBooking.date).toLocaleDateString()}
+              </p>
+              <p>Booking Time: {oneBooking.timeSlots || "-"}</p>
+              <p>Booking Status: {oneBooking.status}</p>
+              <hr />
+            </div>
+          ))
+        )}
       </CustomTabPanel>
 
       <CustomTabPanel value={value} index={1}>

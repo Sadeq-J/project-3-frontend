@@ -1,0 +1,222 @@
+.admin-dashboard {
+  padding: 30px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.admin-dashboard h2 {
+  margin-bottom: 16px;
+}
+
+.admin-dashboard-error {
+  color: red;
+}
+
+.admin-dashboard-tabs {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.admin-dashboard-tab {
+  font-weight: normal;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  background: #f0f0f0;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+.admin-dashboard-tab.active {
+  font-weight: bold;
+  background: #e0e7ff;
+}
+
+.admin-dashboard-divider {
+  margin-bottom: 20px;
+}
+
+.admin-dashboard-list {
+  list-style: none;
+  padding: 0;
+}
+
+.admin-dashboard-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  gap: 12px;
+}
+
+.admin-dashboard-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.admin-dashboard-action-btn {
+  cursor: pointer;
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.admin-dashboard-delete-btn {
+  color: red;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.admin-dashboard-venue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.admin-dashboard-create-btn {
+  display: inline-block;
+  background: #111827;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.venue-form-page {
+  padding: 30px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.venue-form-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+}
+
+.venue-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.venue-form label {
+  font-weight: 600;
+}
+
+.venue-form input,
+.venue-form textarea {
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+.venue-form input[type="file"] {
+  padding: 8px;
+  background: #f9fafb;
+}
+
+.venue-form-help {
+  margin-top: -4px;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.venue-form-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.venue-form-checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.venue-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.venue-form-primary {
+  background: #111827;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.venue-form-secondary {
+  background: #f3f4f6;
+  color: #111827;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.venue-form-error {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  display: block;
+}
+
+.carousel-controls {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.45));
+}
+
+.carousel-button {
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: #111827;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.carousel-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.carousel-dot {
+  border: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+}
+
+.carousel-dot.active {
+  background: white;
+}

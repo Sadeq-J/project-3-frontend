@@ -22,7 +22,7 @@ async function getUserProfile(userId) {
 
 async function followUser(targetUserId) {
   try {
-    const response = await api.post('/profile/follow', { targetUserId })
+    const response = await api.post(`/profile/${targetUserId}/follow`)
     return response.data
   } catch (error) {
     console.error('Error following user:', error)
@@ -32,7 +32,7 @@ async function followUser(targetUserId) {
 
 async function unfollowUser(targetUserId) {
   try {
-    const response = await api.post('/profile/unfollow', { targetUserId })
+    const response = await api.post(`/profile/${targetUserId}/unfollow`)
     return response.data
   } catch (error) {
     console.error('Error unfollowing user:', error)

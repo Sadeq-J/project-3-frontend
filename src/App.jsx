@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import VenuesPage from "./pages/venuePage";
 import VenueDetailsPage from "./pages/venueDetailsPage";
 import MyProfilePage from "./pages/profiles/MyProfilePage"
+import BookingPage from "./pages/BookingPage"
 import { useEffect } from "react";
 import { getCurrentUser, logout } from "./services/authService";
 import { getVenues } from "./services/venueService";
@@ -38,6 +39,14 @@ function App() {
           element={
             <ProtectedRoute>
               <MyProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/bookings/:id"
+          element={
+            <ProtectedRoute>
+              <BookingPage />
             </ProtectedRoute>
           }
         />

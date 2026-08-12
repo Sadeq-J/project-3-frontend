@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { Route, Routes } from "react-router";
+import "./App.css";
 import Navbar from "./components/Navbar";
 import SignupPage from "./pages/SignupPage";
 import Homepage from "./pages/Homepage";
@@ -15,10 +15,11 @@ import { useEffect } from "react";
 import { getCurrentUser, logout } from "./services/authService";
 import { getVenues } from "./services/venueService";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { useAuth } from "./context/AuthContext";
 import AdminRoute from "./components/AdminRoute"
 import AdminDashboard from "./pages/AdminDashboard";
 import EditVenuePage from "./pages/Editpage"
+import CreateVenuePage from "./pages/createPage"
+import AdminVenueDetailsPage from "./pages/AdminVenueDetailsPage"
 
 function App() {
   return (
@@ -71,13 +72,37 @@ function App() {
         <Route path="/venues" element={<VenuesPage />} />
         <Route path="/venues/:venueId" element={<VenueDetailsPage />} />
         <Route
-          path="/admin" element={
+          path="/admin"
+          element={
             <AdminRoute>
               <AdminDashboard />
             </AdminRoute>
           }
-          />
-        <Route path="/venues/:venueId/edit" element={<EditVenuePage />} />
+        />
+        <Route
+          path="/admin/venues/create"
+          element={
+            <AdminRoute>
+              <CreateVenuePage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/venues/:id"
+          element={
+            <AdminRoute>
+              <AdminVenueDetailsPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/venues/:venueId/edit"
+          element={
+            <AdminRoute>
+              <EditVenuePage />
+            </AdminRoute>
+          }
+        />
       </Routes>
     </div>
   );

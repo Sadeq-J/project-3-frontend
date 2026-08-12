@@ -2,6 +2,20 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getVenues } from "../services/venueService";
 
+const resolveImageUrl = (image) => {
+  if (typeof image !== "string" || !image.trim()) return "";
+
+  if (/^https?:\/\//i.test(image)) {
+    return image;
+  }
+
+  if (image.startsWith("/")) {
+    return `${window.location.origin}${image}`;
+  }
+
+  return image;
+};
+
 function VenuesPage() {
   const [venues, setVenues] = useState([]);
   const [sportType, setSportType] = useState("");
@@ -127,11 +141,19 @@ function VenuesPage() {
                 className="bg-white rounded-xl shadow overflow-hidden"
               >
                 {venue.images && venue.images.length > 0 ? (
-                  <img
-                    src={venue.images[0]}
-                    alt={venue.name}
-                    className="w-full h-52 object-cover"
-                  />
+                  <div className="w-full h-52 overflow-hidden bg-gray-100">
+                    <img
+                      src={resolveImageUrl(venue.images[0])}
+                      alt={venue.name}
+                      className="w-full h-full object-cover"
+                      onLoad={() => console.log("image loaded", venue.name, resolveImageUrl(venue.images[0]))}
+                      onError={(event) => {
+                        event.target.onerror = null;
+                        event.target.src = "https://via.placeholder.com/800x500?text=Venue+Image";
+                        console.error("image failed", venue.name, resolveImageUrl(venue.images[0]));
+                      }}
+                    />
+                  </div>
                 ) : (
                   <div className="w-full h-52 bg-gray-200 flex items-center justify-center">
                     <span className="text-gray-500">No Image</span>

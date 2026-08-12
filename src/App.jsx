@@ -43,7 +43,7 @@ function App() {
           }
         />
         <Route
-          path="/bookings/:id"
+          path="/venues/bookings/:id"
           element={
             <ProtectedRoute>
               <BookingPage />

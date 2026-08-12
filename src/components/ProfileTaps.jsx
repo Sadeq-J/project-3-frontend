@@ -69,7 +69,7 @@ export default function BasicTabs() {
         ) : (
             bookings.map((oneBooking) => (
               <div key={oneBooking._id} onClick={() => navigate(`/bookings/${oneBooking._id}`)}>
-                <p>Booking ID: {oneBooking._id}</p>
+                <p>Venue: {oneBooking.venue.name}</p>
                 <p>Booking Date: {new Date(oneBooking.date).toLocaleDateString()}</p>
                 <p>Booking Time: {new Date(oneBooking.date).toLocaleTimeString()}</p>
                 <p>Booking Status: {oneBooking.status}</p>

@@ -108,7 +108,7 @@ function VenueDetailsPage() {
           </div>
 
           <button
-            onClick={() => navigate(`/bookings/${venue._id}`)}
+            onClick={() => navigate(`/venues/bookings/${venue._id}`)}
             className="w-full bg-black text-white py-4 rounded-lg mt-6 text-lg font-semibold hover:bg-gray-800"
           >
             Book This Venue

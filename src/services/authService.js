@@ -8,8 +8,8 @@ async function signUp(formData){
 async function signIn(formData){
     const response = await api.post('/auth/sign-in',formData)
     localStorage.setItem('token', response.data.accessToken);
-    localStorage.setItem('user', JSON.stringify(response.data.user))
-    return response.data.user
+    localStorage.setItem('user', JSON.stringify(response.data.user));
+    return response.data.user;
 }
 
 
@@ -27,9 +27,8 @@ async function getCurrentUser(){
 
 
 function logout(){
-
     localStorage.removeItem("token");
-
+    localStorage.removeItem("user");
 }
 
 export {

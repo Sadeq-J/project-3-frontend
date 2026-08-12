@@ -1,18 +1,24 @@
-import { Navigate } from 'react-router';
+import { Navigate } from "react-router";
+import { useAuth } from "../context/AuthContext";
 
 export default function AdminRoute({ children }) {
-  const userJSON = localStorage.getItem('user');
+  const { user, loading } = useAuth();
 
-  let user = null;
-  try {
-    user = userJSON ? JSON.parse(userJSON) : null;
-  } catch (err) {
-    console.error('Corrupted user data in localStorage, clearing it...');
-    localStorage.removeItem('user');
+  if (loading) {
+    return null;
   }
 
-  const token = localStorage.getItem('token');
-  const isAdmin = Boolean(user?.isAdmin);
+  const token = localStorage.getItem("token");
+  const storedUser = localStorage.getItem("user");
+
+  let parsedUser = null;
+  try {
+    parsedUser = storedUser ? JSON.parse(storedUser) : null;
+  } catch (error) {
+    localStorage.removeItem("user");
+  }
+
+  const isAdmin = Boolean(user?.isAdmin ?? parsedUser?.isAdmin);
 
   if (!token || !isAdmin) {
     return <Navigate to="/dashboard" replace />;

@@ -211,9 +211,7 @@ function BookingCalendar({ id, venue, onBookingChange }) {
 
             {isSwimming ? (
 
-                <div>
-
-                    {/* Swimming Calendar */}
+                <div className="space-y-5">
 
                     <DatePicker
                         label="Select date"
@@ -222,35 +220,21 @@ function BookingCalendar({ id, venue, onBookingChange }) {
                         minDate={dayjs()}
                         slotProps={{
                             textField: {
-                                fullWidth: true
+                                fullWidth: true,
+                                className: "rounded-xl"
                             }
                         }}
                     />
 
-
                     {value && swimmingPeriod && (
-                        <div
-                            style={{
-                                marginTop: "15px",
-                                marginBottom: "10px",
-                            }}
-                        >
-                            Selected: <strong>{swimmingPeriod}</strong>
+                        <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+                            Selected: <span className="font-bold">{swimmingPeriod}</span>
                         </div>
                     )}
 
-                    <div
-                        style={{
-                            display: "flex",
-                            gap: "10px",
-                            marginTop: "15px"
-                        }}
-                    >
+                    <div className="flex flex-wrap gap-3">
                         {swimmingSlots.map((period) => {
-                            const booked = value
-                                ? isSwimmingBooked(value, period)
-                                : false
-
+                            const booked = value ? isSwimmingBooked(value, period) : false
                             const disabled = !value || booked
 
                             return (
@@ -259,18 +243,15 @@ function BookingCalendar({ id, venue, onBookingChange }) {
                                     type="button"
                                     disabled={disabled}
                                     onClick={() => handleSwimmingPeriod(period)}
-                                    style={{
-                                        padding: "12px 20px",
-                                        opacity: disabled ? 0.4 : 1,
-                                        cursor: disabled ? "not-allowed" : "pointer",
-                                        background: swimmingPeriod === period ? "#222" : "white",
-                                        color: swimmingPeriod === period ? "white" : "black",
-                                        border: swimmingPeriod === period ? "2px solid #222" : "1px solid #ccc"
-                                    }}
+                                    className={[
+                                        "rounded-xl border px-4 py-3 text-sm font-semibold transition-all duration-200",
+                                        swimmingPeriod === period
+                                            ? "border-slate-900 bg-slate-900 text-white shadow-sm"
+                                            : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
+                                        disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+                                    ].join(" ")}
                                 >
-                                    {period === "Morning"
-                                        ? "☀️ Morning"
-                                        : "🌙 Evening"}
+                                    {period === "Morning" ? "☀️ Morning" : "🌙 Evening"}
                                 </button>
                             )
                         })}
@@ -279,8 +260,6 @@ function BookingCalendar({ id, venue, onBookingChange }) {
                 </div>
 
             ) : (
-
-                // Football / Padel
 
                 <DateTimePicker
                     label="Select date & time"

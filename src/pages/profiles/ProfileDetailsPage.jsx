@@ -39,9 +39,7 @@ function ProfileDetailsPage() {
         setIsFollowing(alreadyFollowing);
       } catch (error) {
         console.error("Error fetching profile:", error);
-        setError(
-          error.response?.data?.error || "Failed to load profile"
-        );
+        setError(error.response?.data?.error || "Failed to load profile");
       } finally {
         setLoading(false);
       }
@@ -56,85 +54,72 @@ function ProfileDetailsPage() {
 
       if (isFollowing) {
         await unfollowUser(id);
-
         setIsFollowing(false);
         setProfile((prevProfile) => ({
           ...prevProfile,
-          followers: prevProfile.followers.filter(
-            (follower) => follower._id !== id
-          ),
+          followers: prevProfile.followers.filter((follower) => follower._id !== id),
         }));
       } else {
         await followUser(id);
-
         setIsFollowing(true);
         setProfile((prevProfile) => ({
           ...prevProfile,
-          followers: [
-            ...(prevProfile.followers || []),
-          ],
+          followers: [...(prevProfile.followers || [])],
         }));
       }
     } catch (error) {
       console.error("Error updating follow:", error);
-      setError(
-        error.response?.data?.error || "Failed to update follow status"
-      );
+      setError(error.response?.data?.error || "Failed to update follow status");
     } finally {
       setFollowLoading(false);
     }
   };
 
-  if (loading) {
-    return <p>Loading profile...</p>;
-  }
-
-  if (error && !profile) {
-    return <p>{error}</p>;
-  }
-
-  if (!profile) {
-    return <p>Profile not found.</p>;
-  }
+  if (loading) return <div className="py-10 text-center text-sm text-slate-500">Loading profile...</div>;
+  if (error && !profile) return <div className="py-10 text-center text-sm text-red-500">{error}</div>;
+  if (!profile) return <div className="py-10 text-center text-sm text-slate-500">Profile not found.</div>;
 
   const followers = profile.followers || [];
   const following = profile.following || [];
 
   return (
-    <div className="profile-details-page">
-      <div className="profile-header">
-        <img
-          src={profile.profilePicture}
-          alt={`${profile.username}'s profile`}
-          width="120"
-          height="120"
-        />
+    <div className="space-y-6 py-8">
+      <section className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-4">
+            <div className="relative h-20 w-20 overflow-hidden rounded-full bg-slate-200 ring-2 ring-slate-200">
+              <img src={profile.profilePicture} alt={`${profile.username}'s profile`} className="absolute inset-0 h-full w-full object-cover" />
+            </div>
 
-        <h1>{profile.username}</h1>
+            <div>
+              <p className="text-xs uppercase tracking-[0.22em] text-slate-400">Member profile</p>
+              <h1 className="mt-1 text-3xl font-black tracking-tight text-slate-900">{profile.username}</h1>
+            </div>
+          </div>
 
-        <button
-          type="button"
-          onClick={handleFollow}
-          disabled={followLoading}
-        >
-          {followLoading
-            ? "Loading..."
-            : isFollowing
-              ? "Unfollow"
-              : "Follow"}
-        </button>
-      </div>
+          <button
+            type="button"
+            onClick={handleFollow}
+            disabled={followLoading}
+            className={[
+              "rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200",
+              isFollowing ? "bg-slate-900 text-white hover:bg-slate-800" : "bg-emerald-600 text-white hover:bg-emerald-500",
+              followLoading ? "cursor-not-allowed opacity-70" : "",
+            ].join(" ")}
+          >
+            {followLoading ? "Loading..." : isFollowing ? "Unfollow" : "Follow"}
+          </button>
+        </div>
+      </section>
 
-      <div
-        className="profile-stats"
-        style={{ display: "flex", gap: "20px", margin: "20px 0" }}
-      >
+      <div className="flex flex-wrap gap-3">
         <button
           type="button"
           onClick={() => {
             setShowFollowers(!showFollowers);
             setShowFollowing(false);
           }}
+          className="secondary-button"
         >
           Followers {followers.length}
         </button>
@@ -145,96 +130,53 @@ function ProfileDetailsPage() {
             setShowFollowing(!showFollowing);
             setShowFollowers(false);
           }}
+          className="secondary-button"
         >
           Following {following.length}
         </button>
       </div>
 
       {showFollowers && (
-        <div
-          style={{
-            padding: "20px",
-            border: "1px solid #ddd",
-            borderRadius: "12px",
-            marginBottom: "20px",
-          }}
-        >
-          <h2>Followers</h2>
-
-          {followers.length === 0 ? (
-            <p>No followers yet.</p>
-          ) : (
-            followers.map((follower) => (
-              <div
-                key={follower._id}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  marginBottom: "10px",
-                }}
-              >
-                <Link to={`/profile/${follower._id}`}>
-                  <img
-                    src={follower.profilePicture}
-                    alt={`${follower.username}'s profile`}
-                    width="40"
-                    height="40"
-                  />
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h2 className="mb-4 text-lg font-bold text-slate-900">Followers</h2>
+          <div className="space-y-3">
+            {followers.length === 0 ? (
+              <p className="text-sm text-slate-500">No followers yet.</p>
+            ) : (
+              followers.map((follower) => (
+                <Link key={follower._id} to={`/profile/${follower._id}`} className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 transition-all hover:border-slate-300 hover:bg-white">
+                  <div className="relative h-10 w-10 overflow-hidden rounded-full bg-slate-200">
+                    <img src={follower.profilePicture} alt={`${follower.username}'s profile`} className="absolute inset-0 h-full w-full object-cover" />
+                  </div>
+                  <span className="text-sm font-semibold text-slate-800">{follower.username}</span>
                 </Link>
-
-                <Link to={`/profile/${follower._id}`}>
-                  {follower.username}
-                </Link>
-              </div>
-            ))
-          )}
-        </div>
+              ))
+            )}
+          </div>
+        </section>
       )}
 
       {showFollowing && (
-        <div
-          style={{
-            padding: "20px",
-            border: "1px solid #ddd",
-            borderRadius: "12px",
-            marginBottom: "20px",
-          }}
-        >
-          <h2>Following</h2>
-
-          {following.length === 0 ? (
-            <p>Not following anyone.</p>
-          ) : (
-            following.map((followingUser) => (
-              <div
-                key={followingUser._id}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  marginBottom: "10px",
-                }}
-              >
-                <Link to={`/profile/${followingUser._id}`}>
-                  <img
-                    src={followingUser.profilePicture}
-                    alt={`${followingUser.username}'s profile`}
-                    width="40"
-                    height="40"
-                  />
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h2 className="mb-4 text-lg font-bold text-slate-900">Following</h2>
+          <div className="space-y-3">
+            {following.length === 0 ? (
+              <p className="text-sm text-slate-500">Not following anyone.</p>
+            ) : (
+              following.map((followingUser) => (
+                <Link key={followingUser._id} to={`/profile/${followingUser._id}`} className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 transition-all hover:border-slate-300 hover:bg-white">
+                  <div className="relative h-10 w-10 overflow-hidden rounded-full bg-slate-200">
+                    <img src={followingUser.profilePicture} alt={`${followingUser.username}'s profile`} className="absolute inset-0 h-full w-full object-cover" />
+                  </div>
+                  <span className="text-sm font-semibold text-slate-800">{followingUser.username}</span>
                 </Link>
-
-                <Link to={`/profile/${followingUser._id}`}>
-                  {followingUser.username}
-                </Link>
-              </div>
-            ))
-          )}
-        </div>
+              ))
+            )}
+          </div>
+        </section>
       )}
 
-      {error && <p>{error}</p>}
+      {error && <p className="text-sm text-red-500">{error}</p>}
     </div>
   );
 }

@@ -1,86 +1,143 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
+import maidanLogo from "../assets/maidan-logo.svg";
 import { signUp } from "../services/authService";
 
 function Signup() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     password: "",
     passwordConf: "",
   });
-  const [ submitting, setSubmitting ] = useState(false)
 
   const { username, password, passwordConf } = formData;
 
-  function handleChange(event){
+  function handleChange(event) {
     setError("");
     setFormData({ ...formData, [event.target.name]: event.target.value });
-
   }
 
-
-  async function handleSubmit(event){
+  async function handleSubmit(event) {
     event.preventDefault();
+
     try {
-      setSubmitting(true)
+      setSubmitting(true);
       await signUp(formData);
-      navigate('/sign-in')
+      navigate("/sign-in");
     } catch (err) {
-      setError(err.response.data.message);
-      setSubmitting(false)
+      setError(err?.response?.data?.message || "Unable to create account right now.");
+    } finally {
+      setSubmitting(false);
     }
   }
 
-  function isFormInvalid(){
-    return !(username && password && password === passwordConf);
-  };
+  function isFormInvalid() {
+    return !(username.trim() && password && password === passwordConf && password.length >= 6);
+  }
 
   return (
-    <main>
-      <h1>Sign Up</h1>
-      <p className="error">{error}</p>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            name="username"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            name="password"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="confirm">Confirm Password:</label>
-          <input
-            type="password"
-            id="confirm"
-            value={passwordConf}
-            name="passwordConf"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <button disabled={isFormInvalid() || submitting}>{submitting ? 'Signing up...' : 'Sign Up'}</button>
-          <button onClick={() => navigate("/")}>Cancel</button>
-        </div>
-      </form>
+    <main className="min-h-[calc(100vh-92px)] bg-slate-100 px-4 py-12 sm:px-6 lg:px-8">
+      <div className="mx-auto grid max-w-6xl overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_30px_80px_rgba(15,23,42,0.08)] lg:grid-cols-[1.1fr_0.9fr]">
+        <section className="relative overflow-hidden bg-slate-950 px-6 py-8 sm:px-8 lg:px-10 lg:py-10">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(251,191,36,0.20),transparent_20%)]" />
+          <div className="relative flex h-full flex-col justify-between gap-10">
+            <div className="flex items-center gap-4">
+              <img src={maidanLogo} alt="MAIDAN logo" className="h-16 w-auto rounded-2xl bg-white/90 p-2 shadow-lg ring-1 ring-slate-200" />
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-slate-300">Create account</p>
+                <h1 className="mt-2 text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">Book the best courts in town.</h1>
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-2xl border border-slate-700/80 bg-slate-900/50 p-4 backdrop-blur-sm">
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Top venues</p>
+                <p className="mt-3 text-3xl font-black tracking-[-0.06em] text-white">40+</p>
+              </div>
+              <div className="rounded-2xl border border-slate-700/80 bg-slate-900/50 p-4 backdrop-blur-sm">
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Instant booking</p>
+                <p className="mt-3 text-3xl font-black tracking-[-0.06em] text-white">24/7</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-slate-50 px-6 py-8 sm:px-8 lg:px-10 lg:py-10">
+          <div className="mx-auto max-w-md">
+            <div className="mb-7">
+              <p className="text-[10px] font-bold uppercase tracking-[0.26em] text-slate-500">New member</p>
+              <h2 className="mt-3 text-3xl font-black tracking-[-0.06em] text-slate-900">Join MAIDAN</h2>
+            </div>
+
+            {error && (
+              <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="space-y-2">
+                <label htmlFor="username" className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-700">Username</label>
+                <input
+                  className="field-input"
+                  type="text"
+                  id="username"
+                  value={username}
+                  name="username"
+                  onChange={handleChange}
+                  placeholder="Choose a username"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="password" className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-700">Password</label>
+                <input
+                  className="field-input"
+                  type="password"
+                  id="password"
+                  value={password}
+                  name="password"
+                  onChange={handleChange}
+                  placeholder="Create a password"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="confirm" className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-700">Confirm password</label>
+                <input
+                  className="field-input"
+                  type="password"
+                  id="confirm"
+                  value={passwordConf}
+                  name="passwordConf"
+                  onChange={handleChange}
+                  placeholder="Repeat your password"
+                  required
+                />
+              </div>
+
+              <button type="submit" className="primary-button w-full" disabled={isFormInvalid() || submitting}>
+                {submitting ? "Creating account..." : "Create account"}
+              </button>
+
+              <button type="button" onClick={() => navigate("/")} className="secondary-button w-full">
+                Cancel
+              </button>
+
+              <p className="pt-1 text-center text-sm text-slate-500">
+                Already have an account? <Link to="/sign-in" className="font-semibold text-slate-900 underline-offset-4 hover:underline">Sign in</Link>
+              </p>
+            </form>
+          </div>
+        </section>
+      </div>
     </main>
   );
 }
+
 export default Signup;

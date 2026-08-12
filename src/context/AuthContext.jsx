@@ -12,19 +12,24 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     async function checkAuth() {
       const token = localStorage.getItem("token");
+      const storedUser = localStorage.getItem("user");
 
       if (!token) {
+        if (storedUser) {
+          localStorage.removeItem("user");
+        }
+        setUser(null);
         setLoading(false);
         return;
       }
 
       try {
         const user = await getCurrentUser();
-
         setUser(user);
+        localStorage.setItem("user", JSON.stringify(user));
       } catch (error) {
         localStorage.removeItem("token");
-
+        localStorage.removeItem("user");
         setUser(null);
       } finally {
         setLoading(false);
@@ -36,7 +41,6 @@ export function AuthProvider({ children }) {
 
   function handleLogout() {
     logout();
-
     setUser(null);
   }
 

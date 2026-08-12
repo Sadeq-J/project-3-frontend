@@ -1,105 +1,81 @@
-import * as React from 'react';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import {getMyBookings} from '../services/bookingService'
-import {useNavigate} from 'react-router'
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { getMyBookings } from "../services/bookingService";
 
-function CustomTabPanel({ children, value, index, ...other }) {
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-}
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
+const tabs = ["Bookings", "Favorites", "Reviews"];
 
 export default function BasicTabs() {
-  const [value, setValue] = React.useState(0);
-  const [bookings, setBookings] = React.useState([])
-  const [loading, setLoading] = React.useState(true)
+  const [value, setValue] = useState(0);
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-    const navigate = useNavigate()
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchBookings = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
-        const response = await getMyBookings()
-        setBookings(response)
+        const response = await getMyBookings();
+        setBookings(response);
       } catch (error) {
-        console.error('Error fetching bookings:', error)
+        console.error("Error fetching bookings:", error);
+      } finally {
+        setLoading(false);
       }
-      finally {
-        setLoading(false)
-      }
-    }
+    };
 
-    fetchBookings()
-  }, [])
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+    fetchBookings();
+  }, []);
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
-          <Tab label="Bookings" {...a11yProps(0)} />
-          <Tab label="Favorites" {...a11yProps(1)} />
-          <Tab label="Reviews" {...a11yProps(2)} />
-        </Tabs>
-      </Box>
+    <div className="w-full rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <div className="flex flex-wrap gap-2 border-b border-slate-200 bg-slate-50 p-3">
+        {tabs.map((tab, index) => (
+          <button
+            key={tab}
+            type="button"
+            onClick={() => setValue(index)}
+            className={[
+              "rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200",
+              value === index
+                ? "bg-slate-900 text-white shadow-sm"
+                : "bg-white text-slate-600 hover:bg-slate-100",
+            ].join(" ")}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
 
-      <CustomTabPanel value={value} index={0}>
-        Bookings
-        {loading ? (
-          <div style={{ padding: "20px 0" }}>
-            <p>Loading bookings...</p>
+      <div className="p-4 sm:p-6">
+        {value === 0 && (
+          <div className="space-y-4">
+            {loading ? (
+              <p className="py-5 text-sm text-slate-500">Loading bookings...</p>
+            ) : bookings.length === 0 ? (
+              <p className="py-5 text-sm text-slate-500">No bookings found.</p>
+            ) : (
+              bookings.map((oneBooking) => (
+                <button
+                  key={oneBooking._id}
+                  type="button"
+                  onClick={() => navigate(`/bookings/${oneBooking._id}`)}
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 p-4 text-left transition-all duration-200 hover:border-slate-300 hover:bg-white"
+                >
+                  <p className="text-base font-bold text-slate-900">{oneBooking.venue?.name || "Venue"}</p>
+                  <div className="mt-2 grid gap-1 text-sm text-slate-600 sm:grid-cols-2">
+                    <p>Booking Date: {new Date(oneBooking.date).toLocaleDateString()}</p>
+                    <p>Time: {oneBooking.timeSlots || "-"}</p>
+                    <p>Status: {oneBooking.status}</p>
+                  </div>
+                </button>
+              ))
+            )}
           </div>
-        ) : bookings.length === 0 ? (
-          <p>No bookings found.</p>
-        ) : (
-          bookings.map((oneBooking) => (
-            <div
-              key={oneBooking._id}
-              onClick={() => navigate(`/bookings/${oneBooking._id}`)}
-            >
-              <p>Venue: {oneBooking.venue?.name || "Venue"}</p>
-              <p>
-                Booking Date: {new Date(oneBooking.date).toLocaleDateString()}
-              </p>
-              <p>Booking Time: {oneBooking.timeSlots || "-"}</p>
-              <p>Booking Status: {oneBooking.status}</p>
-              <hr />
-            </div>
-          ))
         )}
-      </CustomTabPanel>
 
-      <CustomTabPanel value={value} index={1}>
-        Favorites
-      </CustomTabPanel>
-
-      <CustomTabPanel value={value} index={2}>
-        Item Three
-      </CustomTabPanel>
-    </Box>
+        {value === 1 && <p className="text-sm text-slate-500">Favorites coming soon.</p>}
+        {value === 2 && <p className="text-sm text-slate-500">Reviews coming soon.</p>}
+      </div>
+    </div>
   );
 }

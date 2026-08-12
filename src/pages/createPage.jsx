@@ -70,102 +70,76 @@ function CreateVenuePage() {
   }
 
   return (
-    <div className="venue-form-page">
-      <div className="venue-form-card">
-        <h1>Create Venue</h1>
-        {error && <p className="venue-form-error">{error}</p>}
+    <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="rounded-[32px] border border-slate-200 bg-white shadow-[0_24px_60px_rgba(15,23,42,0.06)]">
+        <div className="border-b border-slate-200 px-6 py-6 sm:px-8">
+          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-500">Management</p>
+          <h1 className="mt-2 text-3xl font-black tracking-[-0.06em] text-slate-900">Create a venue</h1>
+        </div>
 
-        <form className="venue-form" onSubmit={handleSubmit}>
-          <label htmlFor="name">Venue Name</label>
-          <input
-            id="name"
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-
-          <label htmlFor="description">Description</label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-          />
-
-          <label htmlFor="location">Location</label>
-          <input
-            id="location"
-            type="text"
-            name="location"
-            value={formData.location}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Sports</label>
-          <div className="venue-form-checkbox-group">
-            {['football', 'padel', 'basketball', 'tennis', 'swimming'].map((sport) => (
-              <label key={sport}>
-                <input
-                  type="checkbox"
-                  value={sport}
-                  checked={formData.sportType.includes(sport)}
-                  onChange={handleSportChange}
-                />
-                {sport.charAt(0).toUpperCase() + sport.slice(1)}
-              </label>
-            ))}
-          </div>
-
-          <label htmlFor="pricePerHour">Price Per Hour</label>
-          <input
-            id="pricePerHour"
-            type="number"
-            name="pricePerHour"
-            value={formData.pricePerHour}
-            onChange={handleChange}
-            min="10"
-            max="30"
-            required
-          />
-
-          <label htmlFor="images">Images from your computer</label>
-          <input
-            id="images"
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleImageChange}
-          />
-          {selectedImages.length > 0 && (
-            <p className="venue-form-help">
-              Selected: {selectedImages.map((file) => file.name).join(", ")}
-            </p>
+        <div className="px-6 py-6 sm:px-8">
+          {error && (
+            <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+              {error}
+            </div>
           )}
 
-          <label htmlFor="facilities">Facilities</label>
-          <input
-            id="facilities"
-            type="text"
-            name="facilities"
-            value={formData.facilities}
-            onChange={handleChange}
-            placeholder="Parking, Changing Room"
-          />
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid gap-5 md:grid-cols-2">
+              <div className="space-y-2 md:col-span-2">
+                <label htmlFor="name" className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-700">Venue name</label>
+                <input id="name" type="text" name="name" value={formData.name} onChange={handleChange} className="field-input" required />
+              </div>
 
-          <div className="venue-form-actions">
-            <button type="button" className="venue-form-secondary" onClick={() => navigate('/admin')}>
-              Cancel
-            </button>
-            <button type="submit" className="venue-form-primary">
-              Create Venue
-            </button>
-          </div>
-        </form>
+              <div className="space-y-2 md:col-span-2">
+                <label htmlFor="description" className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-700">Description</label>
+                <textarea id="description" name="description" value={formData.description} onChange={handleChange} className="field-input" />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="location" className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-700">Location</label>
+                <input id="location" type="text" name="location" value={formData.location} onChange={handleChange} className="field-input" required />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="pricePerHour" className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-700">Price per hour</label>
+                <input id="pricePerHour" type="number" name="pricePerHour" value={formData.pricePerHour} onChange={handleChange} className="field-input" required />
+              </div>
+
+              <div className="space-y-2 md:col-span-2">
+                <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-700">Sports</label>
+                <div className="flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-3">
+                  {['football', 'padel', 'basketball', 'tennis', 'swimming'].map((sport) => (
+                    <label key={sport} className="flex cursor-pointer items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700">
+                      <input type="checkbox" value={sport} checked={formData.sportType.includes(sport)} onChange={handleSportChange} className="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900" />
+                      {sport.charAt(0).toUpperCase() + sport.slice(1)}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2 md:col-span-2">
+                <label htmlFor="facilities" className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-700">Facilities</label>
+                <input id="facilities" type="text" name="facilities" value={formData.facilities} onChange={handleChange} className="field-input" placeholder="Parking, changing room, lounge" />
+              </div>
+
+              <div className="space-y-2 md:col-span-2">
+                <label htmlFor="images" className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-700">Venue images</label>
+                <input id="images" type="file" accept="image/*" multiple onChange={handleImageChange} />
+                {selectedImages.length > 0 && (
+                  <p className="text-sm text-slate-500">Selected: {selectedImages.map((file) => file.name).join(", ")}</p>
+                )}
+              </div>
+            </div>
+
+            <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end">
+              <button type="button" className="secondary-button" onClick={() => navigate("/admin")}>Cancel</button>
+              <button type="submit" className="primary-button">Create venue</button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </main>
   );
 }
 

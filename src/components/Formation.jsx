@@ -1,303 +1,182 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
 function Formation({ players = [], invitedPlayers = [], onSave }) {
-  const [teamA, setTeamA] = useState([])
-  const [teamB, setTeamB] = useState([])
+  const [teamA, setTeamA] = useState([]);
+  const [teamB, setTeamB] = useState([]);
 
-  const getPlayer = (playerId) =>
-    players.find((player) => player._id === playerId)
+  const getPlayer = (playerId) => players.find((player) => player._id === playerId);
 
   useEffect(() => {
-    const invited = invitedPlayers.map((playerId) => playerId.toString())
-
-    setTeamA((prev) =>
-      prev.filter((playerId) => invited.includes(playerId.toString()))
-    )
-
-    setTeamB((prev) =>
-      prev.filter((playerId) => invited.includes(playerId.toString()))
-    )
-  }, [invitedPlayers])
+    const invited = invitedPlayers.map((playerId) => playerId.toString());
+    setTeamA((prev) => prev.filter((playerId) => invited.includes(playerId.toString())));
+    setTeamB((prev) => prev.filter((playerId) => invited.includes(playerId.toString())));
+  }, [invitedPlayers]);
 
   const movePlayer = (playerId, team) => {
-    const id = playerId.toString()
+    const id = playerId.toString();
 
     if (team === "teamA") {
-      setTeamA((prev) =>
-        prev.includes(id)
-          ? prev.filter((player) => player !== id)
-          : [...prev, id]
-      )
-      setTeamB((prev) => prev.filter((player) => player !== id))
+      setTeamA((prev) => (prev.includes(id) ? prev.filter((player) => player !== id) : [...prev, id]));
+      setTeamB((prev) => prev.filter((player) => player !== id));
     }
 
     if (team === "teamB") {
-      setTeamB((prev) =>
-        prev.includes(id)
-          ? prev.filter((player) => player !== id)
-          : [...prev, id]
-      )
-      setTeamA((prev) => prev.filter((player) => player !== id))
+      setTeamB((prev) => (prev.includes(id) ? prev.filter((player) => player !== id) : [...prev, id]));
+      setTeamA((prev) => prev.filter((player) => player !== id));
     }
-  }
+  };
 
   const handleRandomTeams = () => {
-    const playerIds = invitedPlayers.map((playerId) => playerId.toString())
+    const playerIds = invitedPlayers.map((playerId) => playerId.toString());
+    if (playerIds.length < 2) return;
 
-    if (playerIds.length < 2) return
+    const shuffled = [...playerIds].sort(() => Math.random() - 0.5);
+    const middle = Math.ceil(shuffled.length / 2);
 
-    const shuffled = [...playerIds].sort(() => Math.random() - 0.5)
-    const middle = Math.ceil(shuffled.length / 2)
-
-    setTeamA(shuffled.slice(0, middle))
-    setTeamB(shuffled.slice(middle))
-  }
+    setTeamA(shuffled.slice(0, middle));
+    setTeamB(shuffled.slice(middle));
+  };
 
   const handleSave = () => {
-    if (teamA.length === 0 || teamB.length === 0) return
+    if (teamA.length === 0 || teamB.length === 0) return;
 
-    onSave?.({
-      teamA,
-      teamB,
-    })
-  }
+    onSave?.({ teamA, teamB });
+  };
 
   const playerCard = (playerId, team) => {
-    const player = getPlayer(playerId)
-
-    if (!player) return null
+    const player = getPlayer(playerId);
+    if (!player) return null;
 
     return (
       <div
         key={playerId}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "10px",
-          padding: "10px 12px",
-          marginBottom: "8px",
-          borderRadius: "10px",
-          background: "#fff",
-          border: "1px solid #ddd",
-        }}
+        className="mb-2 flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2.5"
       >
-        <span style={{ fontWeight: "600" }}>
-          {player.username}
-        </span>
-
+        <span className="text-sm font-semibold text-slate-800">{player.username}</span>
         <button
           type="button"
           onClick={() => movePlayer(playerId, team)}
-          style={{
-            padding: "6px 10px",
-            borderRadius: "7px",
-            border: "1px solid #ccc",
-            cursor: "pointer",
-          }}
+          className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-medium text-slate-700 transition-all hover:border-slate-300 hover:bg-slate-100"
         >
           Remove
         </button>
       </div>
-    )
-  }
+    );
+  };
 
   return (
-    <div
-      style={{
-        marginTop: "20px",
-        padding: "24px",
-        border: "1px solid #ddd",
-        borderRadius: "16px",
-        background: "#f8f8f8",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: "20px",
-        }}
-      >
+    <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm sm:p-6">
+      <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 style={{ margin: 0 }}>Choose Teams</h2>
-          <p style={{ margin: "6px 0 0", color: "#666" }}>
-            Choose which team each player will play for.
-          </p>
+          <h2 className="text-xl font-bold text-slate-900">Choose Teams</h2>
+          <p className="mt-1 text-sm text-slate-600">Choose which team each player will play for.</p>
         </div>
 
         <button
           type="button"
           onClick={handleRandomTeams}
           disabled={invitedPlayers.length < 2}
-          style={{
-            padding: "10px 16px",
-            borderRadius: "9px",
-            border: "none",
-            cursor: invitedPlayers.length < 2 ? "not-allowed" : "pointer",
-            opacity: invitedPlayers.length < 2 ? 0.5 : 1,
-            fontWeight: "600",
-          }}
+          className={[
+            "rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200",
+            invitedPlayers.length < 2
+              ? "cursor-not-allowed bg-slate-200 text-slate-500"
+              : "bg-slate-900 text-white hover:bg-slate-800",
+          ].join(" ")}
         >
           🎲 Random Teams
         </button>
       </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "20px",
-        }}
-      >
-        <div
-          style={{
-            minHeight: "220px",
-            padding: "18px",
-            borderRadius: "14px",
-            border: "2px solid #ddd",
-            background: "#fff",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "14px",
-            }}
-          >
-            <h3 style={{ margin: 0 }}>Team A</h3>
-            <span>{teamA.length} players</span>
+      <div className="grid gap-5 md:grid-cols-2">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="text-base font-bold text-slate-900">Team A</h3>
+            <span className="text-xs font-medium text-slate-500">{teamA.length} players</span>
           </div>
 
           {teamA.length === 0 ? (
-            <p style={{ color: "#888" }}>No players yet.</p>
+            <p className="text-sm text-slate-500">No players yet.</p>
           ) : (
             teamA.map((playerId) => playerCard(playerId, "teamA"))
           )}
         </div>
 
-        <div
-          style={{
-            minHeight: "220px",
-            padding: "18px",
-            borderRadius: "14px",
-            border: "2px solid #ddd",
-            background: "#fff",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "14px",
-            }}
-          >
-            <h3 style={{ margin: 0 }}>Team B</h3>
-            <span>{teamB.length} players</span>
+        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="text-base font-bold text-slate-900">Team B</h3>
+            <span className="text-xs font-medium text-slate-500">{teamB.length} players</span>
           </div>
 
           {teamB.length === 0 ? (
-            <p style={{ color: "#888" }}>No players yet.</p>
+            <p className="text-sm text-slate-500">No players yet.</p>
           ) : (
             teamB.map((playerId) => playerCard(playerId, "teamB"))
           )}
         </div>
       </div>
 
-      <div style={{ marginTop: "24px" }}>
-        <h3>Players</h3>
+      <div className="mt-6">
+        <h3 className="mb-3 text-base font-bold text-slate-900">Players</h3>
 
-        {invitedPlayers.map((playerId) => {
-          const player = getPlayer(playerId)
-          if (!player) return null
+        <div className="space-y-3">
+          {invitedPlayers.map((playerId) => {
+            const player = getPlayer(playerId);
+            if (!player) return null;
 
-          const id = playerId.toString()
-          const inTeamA = teamA.includes(id)
-          const inTeamB = teamB.includes(id)
+            const id = playerId.toString();
+            const inTeamA = teamA.includes(id);
+            const inTeamB = teamB.includes(id);
 
-          return (
-            <div
-              key={id}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: "12px",
-                padding: "10px 0",
-                borderBottom: "1px solid #ddd",
-              }}
-            >
-              <span style={{ fontWeight: "600" }}>
-                {player.username}
-              </span>
+            return (
+              <div key={id} className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white px-3 py-3 sm:flex-row sm:items-center sm:justify-between">
+                <span className="text-sm font-semibold text-slate-800">{player.username}</span>
 
-              <div style={{ display: "flex", gap: "8px" }}>
-                <button
-                  type="button"
-                  onClick={() => movePlayer(id, "teamA")}
-                  style={{
-                    padding: "7px 12px",
-                    borderRadius: "7px",
-                    border: "1px solid #ccc",
-                    fontWeight: inTeamA ? "700" : "400",
-                    cursor: "pointer",
-                  }}
-                >
-                  {inTeamA ? "✓ Team A" : "Team A"}
-                </button>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={() => movePlayer(id, "teamA")}
+                    className={[
+                      "rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all duration-200",
+                      inTeamA ? "border-slate-900 bg-slate-900 text-white" : "border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300",
+                    ].join(" ")}
+                  >
+                    {inTeamA ? "✓ Team A" : "Team A"}
+                  </button>
 
-                <button
-                  type="button"
-                  onClick={() => movePlayer(id, "teamB")}
-                  style={{
-                    padding: "7px 12px",
-                    borderRadius: "7px",
-                    border: "1px solid #ccc",
-                    fontWeight: inTeamB ? "700" : "400",
-                    cursor: "pointer",
-                  }}
-                >
-                  {inTeamB ? "✓ Team B" : "Team B"}
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => movePlayer(id, "teamB")}
+                    className={[
+                      "rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all duration-200",
+                      inTeamB ? "border-slate-900 bg-slate-900 text-white" : "border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300",
+                    ].join(" ")}
+                  >
+                    {inTeamB ? "✓ Team B" : "Team B"}
+                  </button>
+                </div>
               </div>
-            </div>
-          )
-        })}
+            );
+          })}
+        </div>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          marginTop: "24px",
-        }}
-      >
+      <div className="mt-6 flex justify-end">
         <button
           type="button"
           onClick={handleSave}
           disabled={teamA.length === 0 || teamB.length === 0}
-          style={{
-            padding: "11px 20px",
-            borderRadius: "9px",
-            border: "none",
-            cursor:
-              teamA.length === 0 || teamB.length === 0
-                ? "not-allowed"
-                : "pointer",
-            opacity:
-              teamA.length === 0 || teamB.length === 0 ? 0.5 : 1,
-            fontWeight: "700",
-          }}
+          className={[
+            "rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200",
+            teamA.length === 0 || teamB.length === 0
+              ? "cursor-not-allowed bg-slate-200 text-slate-500"
+              : "bg-emerald-600 text-white hover:bg-emerald-500",
+          ].join(" ")}
         >
           Save Teams
         </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default Formation
+export default Formation;

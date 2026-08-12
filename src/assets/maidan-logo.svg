@@ -1,0 +1,33 @@
+<svg width="760" height="260" viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="maidanRed" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D80F2C"/>
+      <stop offset="100%" stop-color="#A2001E"/>
+    </linearGradient>
+    <linearGradient id="maidanGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F4C65B"/>
+      <stop offset="100%" stop-color="#D7A014"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="760" height="260" fill="#05070B"/>
+
+  <g transform="translate(42,18)">
+    <rect x="0" y="8" width="180" height="180" rx="18" fill="url(#maidanRed)"/>
+    <rect x="18" y="26" width="144" height="144" rx="14" fill="none" stroke="#F5E8E9" stroke-width="4"/>
+    <circle cx="90" cy="98" r="58" fill="none" stroke="#F4E6E8" stroke-width="5"/>
+    <circle cx="90" cy="98" r="18" fill="none" stroke="#F4E6E8" stroke-width="4"/>
+    <path d="M34 98C45 73 63 61 90 61C117 61 135 73 146 98" stroke="#F4E6E8" stroke-width="6" stroke-linecap="round"/>
+    <path d="M90 49V148" stroke="#F4E6E8" stroke-width="6" stroke-linecap="round"/>
+    <path d="M44 83L136 113" stroke="#F4E6E8" stroke-width="6" stroke-linecap="round"/>
+    <path d="M44 113L136 83" stroke="#F4E6E8" stroke-width="6" stroke-linecap="round"/>
+    <path d="M52 54L90 21L128 54" stroke="url(#maidanGold)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M63 94L82 110L118 71" stroke="url(#maidanGold)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g transform="translate(248,34)">
+    <text x="0" y="98" font-family="Arial, Helvetica, sans-serif" font-size="82" font-weight="900" letter-spacing="2" fill="#F3F3F3">MAIDAN</text>
+    <text x="3" y="145" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" letter-spacing="3.5" fill="#F3F3F3">SPORTS BOOKING BAHRAIN</text>
+    <path d="M4 164H362" stroke="#D7A014" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>

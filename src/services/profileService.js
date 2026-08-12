@@ -70,9 +70,21 @@ async function getAllProfiles() {
   }
 }
 
+async function searchUsers(query) {
+  try {
+    const response = await api.get('/profile', {
+      params: { q: query }
+    })
+    return response.data
+  } catch (error) {
+    console.error('Error searching users:', error)
+    throw error
+  }
+}
+
 async function updateProfile(profileData) {
   try {
-    const response = await api.put('/profile', profileData)
+    const response = await api.put('/profile/me', profileData)
     return response.data
   } catch (error) {
     console.error('Error updating profile:', error)
@@ -88,5 +100,6 @@ export {
   getFollowers,
   getFollowing,
   getAllProfiles,
+  searchUsers,
   updateProfile,
 }

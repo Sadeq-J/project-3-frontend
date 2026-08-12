@@ -29,9 +29,7 @@ function VenueDetailsPage() {
     const fetchVenue = async () => {
       try {
         setLoading(true);
-
         const data = await getVenueById(venueId);
-
         setVenue(data);
       } catch (error) {
         console.error(error);
@@ -49,26 +47,43 @@ function VenueDetailsPage() {
   }, [venueId]);
 
   if (loading) {
-    return <div className="text-center p-10">Loading venue...</div>;
+    return <div className="p-10 text-center text-slate-600">Loading venue...</div>;
   }
 
   if (error) {
-    return <div className="text-center p-10 text-red-500">{error}</div>;
+    return <div className="p-10 text-center text-red-500">{error}</div>;
   }
 
   if (!venue) {
-    return <div className="text-center p-10">Venue not found.</div>;
+    return <div className="p-10 text-center text-slate-600">Venue not found.</div>;
   }
 
-  const images = Array.isArray(venue.images) && venue.images.length > 0
-    ? venue.images.filter(Boolean).map(resolveImageUrl)
-    : [];
+  const images = (() => {
+    const rawImages = Array.isArray(venue.images)
+      ? venue.images
+      : typeof venue.images === "string"
+        ? [venue.images]
+        : [];
+
+    return rawImages.filter(Boolean).map(resolveImageUrl).filter(Boolean);
+  })();
+
+  const nextImage = () => {
+    if (!images.length) return;
+    setActiveImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
+  const previousImage = () => {
+    if (!images.length) return;
+    setActiveImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const hasMultipleImages = images.length > 1;
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-5xl mx-auto bg-white rounded-xl shadow overflow-hidden">
-        {images.length > 0 ? (
-          <div className="carousel-container">
+    <div className="min-h-screen bg-slate-100 px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-sm">
+        <div className="carousel-container">
             <img
               src={images[activeImageIndex]}
               alt={`${venue.name} ${activeImageIndex + 1}`}
@@ -116,69 +131,68 @@ function VenueDetailsPage() {
               </div>
             )}
           </div>
-        ) : (
-          <div className="w-full h-80 bg-gray-200 flex items-center justify-center">
-            <span className="text-gray-500">No Image</span>
-          </div>
-        )}
 
-        <div className="p-8">
-          <h1 className="text-4xl font-bold">{venue.name}</h1>
-
-          <p className="text-gray-600 text-lg mt-3">📍 {venue.location}</p>
-
-          {venue.description && (
-            <div className="mt-6">
-              <h2 className="text-xl font-bold">Description</h2>
-
-              <p className="text-gray-600 mt-2">{venue.description}</p>
+        <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1.25fr_0.75fr]">
+          <div>
+            <div className="mb-5 flex items-center gap-3">
+              <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">Featured venue</span>
             </div>
-          )}
 
-          <div className="mt-6">
-            <h2 className="text-xl font-bold">Sports</h2>
+            <h1 className="text-4xl font-black tracking-tight text-slate-900">{venue.name}</h1>
+            <p className="mt-3 text-lg text-slate-600">📍 {venue.location}</p>
 
-            <div className="flex flex-wrap gap-2 mt-3">
-              {venue.sportType.map((sport, index) => (
-                <span
-                  key={index}
-                  className="bg-gray-100 px-4 py-2 rounded-full"
-                >
-                  {sport}
-                </span>
-              ))}
-            </div>
-          </div>
+            {venue.description && (
+              <div className="mt-8">
+                <h2 className="text-xl font-bold text-slate-900">Description</h2>
+                <p className="mt-3 text-base leading-7 text-slate-600">{venue.description}</p>
+              </div>
+            )}
 
-          {venue.facilities && venue.facilities.length > 0 && (
-            <div className="mt-6">
-              <h2 className="text-xl font-bold">Facilities</h2>
-
-              <div className="flex flex-wrap gap-2 mt-3">
-                {venue.facilities.map((facility, index) => (
-                  <span
-                    key={index}
-                    className="bg-gray-100 px-4 py-2 rounded-full"
-                  >
-                    {facility}
+            <div className="mt-8">
+              <h2 className="text-xl font-bold text-slate-900">Sports</h2>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {(Array.isArray(venue.sportType) ? venue.sportType : [venue.sportType]).map((sport, index) => (
+                  <span key={index} className="rounded-full bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-700">
+                    {sport}
                   </span>
                 ))}
               </div>
             </div>
-          )}
 
-          <div className="mt-8">
-            <p className="text-2xl font-bold">
-              {venue.pricePerHour} BHD / hour
-            </p>
+            {venue.facilities && venue.facilities.length > 0 && (
+              <div className="mt-8">
+                <h2 className="text-xl font-bold text-slate-900">Facilities</h2>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {venue.facilities.map((facility, index) => (
+                    <span key={index} className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-700">
+                      {facility}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
-          <button
-            onClick={() => navigate(`/venues/bookings/${venue._id}`)}
-            className="w-full bg-black text-white py-4 rounded-lg mt-6 text-lg font-semibold hover:bg-gray-800"
-          >
-            Book This Venue
-          </button>
+          <aside className="rounded-[28px] border border-slate-200 bg-slate-50 p-6">
+            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">Booking</p>
+            <p className="mt-4 text-4xl font-black text-slate-900">{venue.pricePerHour} BHD</p>
+            <p className="mt-1 text-sm text-slate-500">per hour</p>
+
+            <div className="mt-6 space-y-3 text-sm text-slate-600">
+              <div className="flex items-center justify-between rounded-xl bg-white px-3 py-2.5 ring-1 ring-slate-200">
+                <span>Location</span>
+                <span className="font-semibold text-slate-800">{venue.location}</span>
+              </div>
+              <div className="flex items-center justify-between rounded-xl bg-white px-3 py-2.5 ring-1 ring-slate-200">
+                <span>Sports</span>
+                <span className="font-semibold text-slate-800">{Array.isArray(venue.sportType) ? venue.sportType.length : 1}</span>
+              </div>
+            </div>
+
+            <button onClick={() => navigate(`/venues/bookings/${venue._id}`)} className="primary-button mt-8 w-full">
+              Book this venue
+            </button>
+          </aside>
         </div>
       </div>
     </div>

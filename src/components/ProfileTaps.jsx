@@ -2,7 +2,7 @@ import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import {getBookings} from '../services/bookingService'
+import {getMyBookings} from '../services/bookingService'
 import {useNavigate} from 'react-router'
 
 function CustomTabPanel({ children, value, index, ...other }) {
@@ -34,7 +34,7 @@ export default function BasicTabs() {
   React.useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await getBookings()
+        const response = await getMyBookings()
         setBookings(response)
       } catch (error) {
         console.error('Error fetching bookings:', error)

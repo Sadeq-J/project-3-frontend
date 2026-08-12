@@ -8,6 +8,12 @@ import Dashboard from "./pages/Dashboard";
 import VenuesPage from "./pages/venuePage";
 import VenueDetailsPage from "./pages/venueDetailsPage";
 import MyProfilePage from "./pages/profiles/MyProfilePage"
+import BookingPage from "./pages/BookingPage"
+import BookingDetailsPage from "./pages/BookingDetailsPage";
+import ProfileDetailsPage from "./pages/profiles/ProfileDetailsPage";
+import { useEffect } from "react";
+import { getCurrentUser, logout } from "./services/authService";
+import { getVenues } from "./services/venueService";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute"
 import AdminDashboard from "./pages/AdminDashboard";
@@ -36,6 +42,30 @@ function App() {
           element={
             <ProtectedRoute>
               <MyProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/venues/bookings/:id"
+          element={
+            <ProtectedRoute>
+              <BookingPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/bookings/:id"
+          element={
+            <ProtectedRoute>
+              <BookingDetailsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile/:id"
+          element={
+            <ProtectedRoute>
+              <ProfileDetailsPage />
             </ProtectedRoute>
           }
         />

@@ -71,7 +71,13 @@ function App() {
         />
         <Route path="/venues" element={<VenuesPage />} />
         <Route path="/venues/:venueId" element={<VenueDetailsPage />} />
-        <Route path="/venues/create" element={<CreateVenuePage />} />
+        <Route 
+          path="/venues/create" 
+          element={
+          <AdminRoute>
+          <CreateVenuePage />
+          </AdminRoute>
+          } />
         <Route
           path="/admin"
           element={

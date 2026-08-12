@@ -30,14 +30,6 @@ const getAdminVenueById = async (id) => {
   const response = await API.get(`/admin/venues/${id}`);
   return response.data;
 };
-const updateVenueById = async (id, venueData) => {
-  const response = await API.put(`/admin/venues/${id}`, venueData);
-  return response.data;
-};
 
-const getAdminVenueById = async (id) => {
-  const response = await API.get(`/admin/venues/${id}`);
-  return response.data;
-};
 
 export { getVenueById, getAdminVenueById, getVenues, createVenue, updateVenueById };

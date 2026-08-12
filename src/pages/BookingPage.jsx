@@ -129,15 +129,23 @@ function BookingPage() {
     if (!cardNumber || !cardName || !expiry || !cvv) return;
 
     try {
-      await createBooking(id, formData);
+      // 🔥 Explicitly bundle teams with formData to ensure they hit the backend
+      const bookingPayload = {
+        ...formData,
+        teams: {
+          teamA: formData.teams.teamA,
+          teamB: formData.teams.teamB,
+        }
+      };
+
+      await createBooking(id, bookingPayload);
       setPaymentSuccess(true);
       setShowPayment(false);
       navigate("/my-profile");
     } catch (error) {
       console.error("Error creating booking:", error);
     }
-  };
-
+  }
   return (
     <div className="mx-auto max-w-5xl space-y-6 py-8">
       <div className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
@@ -268,7 +276,8 @@ function BookingPage() {
             </div>
           </div>
 
-          <div className="space-y-4">
+          {/* 🔥 Wrapped in a proper form tag so submit events trigger correctly */}
+          <form onSubmit={handleFakePayment} className="space-y-4">
             <div>
               <label htmlFor="card-number" className="mb-2 block text-sm font-semibold text-slate-700">Card Number</label>
               <input
@@ -347,14 +356,15 @@ function BookingPage() {
             </div>
 
             <div className="space-y-3 pt-2">
-              <button type="button" onClick={handleFakePayment} className="primary-button w-full">
+              {/* 🔥 Changed to type="submit" so it triggers the form onSubmit */}
+              <button type="submit" className="primary-button w-full">
                 Pay Now
               </button>
               <button type="button" onClick={() => setShowPayment(false)} className="secondary-button w-full">
                 Back
               </button>
             </div>
-          </div>
+          </form>
         </div>
       )}
 

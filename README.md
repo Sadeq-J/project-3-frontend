@@ -6,10 +6,19 @@
 ## Live Application
 - **Frontend:** `http://localhost:5173`
 - **Backend API:** `http://localhost:3000`
-- **Backend Repository:** [MAIDAN Backend](../project-3-backend)
+- **Backend Repository:** [MAIDAN Backend](https://github.com/Sadeq-J/project-3-backend/pulse)
 
 ## Screenshots
-*(Add application screenshots here)*
+
+![HomePage](<src/assets/Screenshot 2026-08-12 at 9.04.24 PM.png>)
+
+![Venue Dashboard](<src/assets/Screenshot 2026-08-12 at 9.04.47 PM.png>)
+
+![Profile management](<src/assets/Screenshot 2026-08-12 at 9.05.12 PM.png>)
+
+![Admin Dashboard](<src/assets/Screenshot 2026-08-12 at 9.05.27 PM.png>)
+
+![Regesteration Page](<src/assets/Screenshot 2026-08-12 at 9.05.48 PM.png>)
 
 ## Technologies Used
 - React
@@ -51,7 +60,7 @@ src/
 ### Prerequisites
 Install the following before running the project:
 - Node.js (v18.x or higher)
-- The backend API has to be working: [MAIDAN Backend API](../project-3-backend/README.md)
+- The backend API has to be working: [MAIDAN Backend API](https://github.com/Sadeq-J/project-3-backend#)
 
 ### Installation
 1. **Clone the repository / navigate to frontend directory:**
@@ -111,7 +120,9 @@ Install the following before running the project:
 ## Team Members
 | Name | GitHub |
 | :--- | :--- |
-| Ali Alsaeed | [GitHub Profile](https://github.com/) |
+| Ali Alsaeed | [GitHub Profile](https://github.com/ALIALSAEED313) |
+| Sadeq Ali | [GitHub Profile](https://github.com/Sadeq-J) |
+| Faisal Raheem | [GitHub Profile](https://github.com/faisalr305) |
 
 ## Credits
-- General Assembly Software Engineering Bootcamp
+- Ali Alsaeed, Sadiq Ali , Faisal Raheem

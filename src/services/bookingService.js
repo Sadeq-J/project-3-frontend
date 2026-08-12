@@ -1,7 +1,28 @@
 import api from './api'
 
-async function createBooking(formData){
-    const response = await api.post('/booking',formData)
+
+
+
+async function createBooking(id, formData){
+    const response = await api.post(`/booking/${id}`,formData)
+    return response.data
+}
+
+async function getMyBookings(){
+    const response = await api.get('/booking/my-booking')
+    return response.data
+}
+
+
+async function updateBooking(id, formData){
+    const response = await api.put(`/booking/${id}/edit`, formData)
+    return response.data
+}
+
+async function invitePlayer(id, friendId){
+    const response = await api.post(`/booking/${id}/invite`, {
+        friendId
+    })
     return response.data
 }
 
@@ -10,13 +31,16 @@ async function getBookings(){
     return response.data
 }
 
-async function updateBooking(id, formData){
-    const response = await api.put(`/booking/${id}`,formData)
+const getBookingsByVenue = async (id) => {
+    const response = await api.get(`/booking/venue/${id}`)
     return response.data
 }
 
-export {
+export{
   createBooking,
+  getMyBookings,
+  updateBooking,
+  invitePlayer,
   getBookings,
-  updateBooking
+  getBookingsByVenue
 };
